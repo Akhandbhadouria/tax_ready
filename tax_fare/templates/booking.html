@@ -1,0 +1,58 @@
+{%extends "layout.html"%}
+{%load static%}
+{%block content%}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Booked Rides</title>
+   
+</head>
+<link rel="stylesheet" href="{%static 'css/booling.css'%}">
+<body>
+     <div class="container">
+        <h2>All Booked Rides</h2>
+        
+        <a href="{% url 'home' %}" class="back-link">
+            ← Back to Home
+        </a>
+
+        <table>
+            <thead>
+                <tr>
+                   
+                    <th>Starting Point</th>
+                    <th>Destination</th>
+                    <th>Vehicle Type</th>
+                    <th>Driver Name</th>
+                    <th>Cost (₹)</th>
+                    <th>Time Estimate</th>
+                    <th>Date & Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ride in bkng %}
+                 {% if user.is_authenticated %}
+                <tr>
+                   
+                    <td>{{ ride.starting_point }}</td>
+                    <td>{{ ride.destination }}</td>
+                    <td>{{ ride.vehicle_type }}</td>
+                    <td>{{ ride.driver_name }}</td>
+                    <td>₹{{ ride.cost }}</td>
+                    <td>{{ ride.time_estimate }}</td>
+                    <td>{{ ride.date_time|date:"Y-m-d H:i:s" }}</td>
+                </tr>
+                {%endif%}
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="empty-state">No rides booked yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+{%endblock%}

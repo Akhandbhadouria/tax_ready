@@ -1,0 +1,77 @@
+
+{%load static%}
+<link rel="stylesheet" href="{%static 'css/header.css'%}">
+<nav>
+    <div class="nav-container">
+        <div class="nav-left">
+            <div class="logo">
+                <img src="{%static 'image/logo_2.png'%}" alt="">
+            </div>
+        </div>
+
+        <div class="nav-center">
+            <div class="nav-links">
+                <a href="{%url 'home' %}">Home</a>
+                <a href="{%url 'about'%}">About</a>
+                <a href="#services">Service</a>
+
+                 {% if user.is_authenticated %}
+                <a href="{% url 'chatbot' %}">chatbot</a>
+                <a href="{% url 'chatbot:bookings'%}">Bookings</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="nav-right">
+            {% if user.is_authenticated %}
+            <div class="user-actions">
+                <span class="user-welcome">Welcome, {{ user.username }}</span>
+                <a href="{%url 'logout'%}" class="logout-btn">Log Out</a>
+            </div>
+            {% else %}
+            <div class="auth-actions">
+                <a href="{% url 'login' %}" class="auth-btn">Login</a>
+                <a href="{% url 'register' %}" class="auth-btn primary">Sign Up</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+<script>
+    window.addEventListener('scroll', function() {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+    } else {
+        nav.classList.remove('scrolled');
+    }
+});
+</script>
+<script>
+// Smooth scroll to features section when "Services" link is clicked
+document.addEventListener('DOMContentLoaded', function() {
+    // Find the Services link in your navigation
+    const servicesLink = document.querySelector('a[href="#services"]');
+    
+    if (servicesLink) {
+        servicesLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Find the features section
+            const featuresSection = document.getElementById('features');
+            
+            if (featuresSection) {
+                // Calculate the position to scroll to (considering fixed navbar)
+                const navbarHeight = document.querySelector('nav').offsetHeight;
+                const targetPosition = featuresSection.offsetTop - navbarHeight - 20;
+                
+                // Smooth scroll to the features section
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
+});
+</script>

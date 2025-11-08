@@ -1,0 +1,56 @@
+{%load static%}
+<link rel="stylesheet" href="{%static 'css/footer.css'%}">
+<!-- Add this HTML structure before closing body tag -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-main">
+            <div class="footer-logo">
+                <img src="{%static 'image/logo_2.png'%}" alt="">
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-link">GITHUB</a>
+                <a href="#" class="social-link">LINKEDIN</a>
+                <a href="#" class="social-link">TWITTER</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div class="footer-bottom-content">
+            <div class="copyright">
+                <span>© 2024 RideEase. All rights reserved.</span>
+            </div>
+            <div class="credits">
+                <span>Design by Akhand Pratap Singh</span>
+                <span class="separator">|</span>
+                <span>Development by Akhand Pratap Singh</span>
+            </div>
+            <button class="back-to-top" onclick="scrollToTop()">
+                BACK TO TOP ↑
+            </button>
+        </div>
+    </div>
+</footer>
+<script>
+    // Add this JavaScript for back to top functionality
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+// Optional: Show/hide back to top button based on scroll position
+window.addEventListener('scroll', function() {
+    const backToTop = document.querySelector('.back-to-top');
+    if (backToTop) {
+        if (window.scrollY > 500) {
+            backToTop.style.opacity = '1';
+            backToTop.style.visibility = 'visible';
+        } else {
+            backToTop.style.opacity = '0';
+            backToTop.style.visibility = 'hidden';
+        }
+    }
+});
+</script>

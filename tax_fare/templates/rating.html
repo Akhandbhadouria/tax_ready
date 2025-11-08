@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /* Add this CSS to your stylesheet */
+.rating-section {
+    background: rgba(20, 20, 20, 0.9);
+    border-radius: 24px;
+    padding: 60px 40px;
+    margin: 0 20px 30px 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.rating-section:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+    animation: glitterEffect 1s ease;
+}
+
+.rating-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.rating-title {
+    font-size: 2.5rem;
+    color: #ffffff;
+    margin-bottom: 15px;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.rating-subtitle {
+    font-size: 1.1rem;
+    color: #b0b0b0;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.rating-stats {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 60px;
+    align-items: start;
+    margin-bottom: 50px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.overall-rating {
+    display: flex;
+    justify-content: center;
+}
+
+.rating-circle {
+    text-align: center;
+    padding: 30px;
+    background: rgba(30, 30, 30, 0.8);
+    border-radius: 20px;
+    border: 2px solid rgba(205, 191, 191, 0.05);
+    min-width: 180px;
+    transition: all 0.3s ease;
+}
+
+.rating-circle:hover {
+    border-color: rgba(253, 254, 255, 0.5);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(187, 188, 196, 0.3);
+}
+
+.rating-score {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px rgba(213, 216, 231, 0.5);
+}
+
+.rating-stars {
+    margin-bottom: 10px;
+}
+
+.star {
+    font-size: 1.2rem;
+    margin: 0 2px;
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+}
+
+.rating-count {
+    color: #b0b0b0;
+    font-size: 0.9rem;
+}
+
+.rating-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.rating-bar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.star-label {
+    color: #ffffff;
+    font-size: 0.9rem;
+    min-width: 60px;
+}
+
+.bar-container {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.bar-fill {
+    height: 100%;
+    background: linear-gradient(135deg, #D9A8C7 0%, #FEFCDC 100%);
+    border-radius: 10px;
+    width: 0;
+    transition: width 1.5s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.percentage {
+    color: #b0b0b0;
+    font-size: 0.9rem;
+    min-width: 35px;
+    text-align: right;
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.review-card {
+    background: rgba(30, 30, 30, 0.8);
+    border-radius: 20px;
+    padding: 30px;
+    border: 2px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.review-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.review-card:hover::before {
+    opacity: 1;
+}
+
+.review-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(213, 215, 223, 0.5);
+    box-shadow: 0 15px 30px rgba(102, 126, 234, 0.3);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.reviewer-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.reviewer-avatar {
+    width: 50px;
+    height: 50px;
+    background: rgba(102, 126, 234, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    border: 2px solid rgba(102, 126, 234, 0.5);
+}
+
+.reviewer-details h4 {
+    color: #ffffff;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+.review-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.review-stars .star {
+    font-size: 1rem;
+}
+
+.review-date {
+    color: #b0b0b0;
+    font-size: 0.85rem;
+}
+
+.review-text {
+    color: #b0b0b0;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+.review-meta {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.vehicle-type, .ride-route {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    color: #b0b0b0;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.rating-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 15px 35px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #D9A8C7 0%, #FEFCDC 100%);
+    color: white;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+}
+
+.btn-outline {
+    background: transparent;
+    color: #d4d8e9;
+    border: 2px solid #f7f9ff;
+}
+
+.btn-outline:hover {
+    background: #656a82;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.btn-icon {
+    font-size: 1.2rem;
+}
+
+/* Animation for bar fill */
+.rating-section.active .bar-fill {
+    width: var(--target-width);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .rating-section {
+        padding: 40px 20px;
+        margin: 0 10px 20px 10px;
+        border-radius: 20px;
+    }
+    
+    .rating-title {
+        font-size: 2rem;
+    }
+    
+    .rating-stats {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+    
+    .reviews-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .review-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .review-date {
+        align-self: flex-start;
+    }
+    
+    .rating-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 250px;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .rating-title {
+        font-size: 1.75rem;
+    }
+    
+    .rating-score {
+        font-size: 3rem;
+    }
+    
+    .review-card {
+        padding: 20px;
+    }
+    
+    .reviewer-info {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .review-meta {
+        justify-content: center;
+    }
+}
+</style>
+<body>
+    <!-- Add this HTML structure to your page -->
+<div class="rating-section">
+    <div class="rating-header">
+        <h2 class="rating-title">User Ratings & Reviews</h2>
+        <p class="rating-subtitle">See what our riders are saying about their experiences</p>
+    </div>
+    
+    <div class="rating-stats">
+        <div class="overall-rating">
+            <div class="rating-circle">
+                <div class="rating-score">4.8</div>
+                <div class="rating-stars">
+                    <span class="star">⭐</span>
+                    <span class="star">⭐</span>
+                    <span class="star">⭐</span>
+                    <span class="star">⭐</span>
+                    <span class="star">⭐</span>
+                </div>
+                <div class="rating-count">1,247 Reviews</div>
+            </div>
+        </div>
+        
+        <div class="rating-bars">
+            <div class="rating-bar">
+                <span class="star-label">5 Stars</span>
+                <div class="bar-container">
+                    <div class="bar-fill" data-width="85%"></div>
+                </div>
+                <span class="percentage">85%</span>
+            </div>
+            <div class="rating-bar">
+                <span class="star-label">4 Stars</span>
+                <div class="bar-container">
+                    <div class="bar-fill" data-width="12%"></div>
+                </div>
+                <span class="percentage">12%</span>
+            </div>
+            <div class="rating-bar">
+                <span class="star-label">3 Stars</span>
+                <div class="bar-container">
+                    <div class="bar-fill" data-width="2%"></div>
+                </div>
+                <span class="percentage">2%</span>
+            </div>
+            <div class="rating-bar">
+                <span class="star-label">2 Stars</span>
+                <div class="bar-container">
+                    <div class="bar-fill" data-width="1%"></div>
+                </div>
+                <span class="percentage">1%</span>
+            </div>
+            <div class="rating-bar">
+                <span class="star-label">1 Star</span>
+                <div class="bar-container">
+                    <div class="bar-fill" data-width="0%"></div>
+                </div>
+                <span class="percentage">0%</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="reviews-grid">
+        <div class="review-card">
+            <div class="review-header">
+                <div class="reviewer-info">
+                    <div class="reviewer-avatar">👤</div>
+                    <div class="reviewer-details">
+                        <h4 class="reviewer-name">Sarah Johnson</h4>
+                        <div class="review-stars">
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-date">2 days ago</div>
+            </div>
+            <p class="review-text">Amazing service! The bike arrived in 3 minutes and the rider was very professional. Highly recommended!</p>
+            <div class="review-meta">
+                <span class="vehicle-type">🏍️ Bike Ride</span>
+                <span class="ride-route">Downtown to Airport</span>
+            </div>
+        </div>
+        
+        <div class="review-card">
+            <div class="review-header">
+                <div class="reviewer-info">
+                    <div class="reviewer-avatar">👤</div>
+                    <div class="reviewer-details">
+                        <h4 class="reviewer-name">Mike Chen</h4>
+                        <div class="review-stars">
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-date">1 week ago</div>
+            </div>
+            <p class="review-text">Auto service is fantastic for short distances. Affordable and always on time. Great app!</p>
+            <div class="review-meta">
+                <span class="vehicle-type">🛺 Auto Ride</span>
+                <span class="ride-route">Market to Station</span>
+            </div>
+        </div>
+        
+        <div class="review-card">
+            <div class="review-header">
+                <div class="reviewer-info">
+                    <div class="reviewer-avatar">👤</div>
+                    <div class="reviewer-details">
+                        <h4 class="reviewer-name">Priya Sharma</h4>
+                        <div class="review-stars">
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-date">3 weeks ago</div>
+            </div>
+            <p class="review-text">Comfortable cab ride with AC. Driver was very courteous and the car was spotless. Will use again!</p>
+            <div class="review-meta">
+                <span class="vehicle-type">🚗 Cab Ride</span>
+                <span class="ride-route">Home to Mall</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="rating-actions">
+        <button class="btn btn-primary">
+            <span class="btn-icon">⭐</span>
+            Rate Your Experience
+        </button>
+        <button class="btn btn-outline">
+            <span class="btn-icon">📝</span>
+            See All Reviews
+        </button>
+    </div>
+</div>
+<script>
+    // Add this JavaScript to animate the rating bars
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate rating bars
+    const ratingSection = document.querySelector('.rating-section');
+    const barFills = document.querySelectorAll('.bar-fill');
+    
+    // Create observer to animate bars when section comes into view
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                barFills.forEach(bar => {
+                    const width = bar.getAttribute('data-width');
+                    bar.style.width = width;
+                });
+                ratingSection.classList.add('active');
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    observer.observe(ratingSection);
+    
+    // Add click effects to review cards
+    const reviewCards = document.querySelectorAll('.review-card');
+    reviewCards.forEach(card => {
+        card.addEventListener('click', function() {
+            this.style.transform = 'translateY(-8px) scale(1.02)';
+            setTimeout(() => {
+                this.style.transform = 'translateY(-8px)';
+            }, 150);
+        });
+    });
+});
+</script>
+</body>
+</html>

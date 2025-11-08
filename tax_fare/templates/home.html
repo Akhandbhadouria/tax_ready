@@ -1,0 +1,176 @@
+{%extends "layout.html"%}
+{%load static%}
+{%block content%}
+<link rel="stylesheet" href="{%static 'css/home.css'%}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<section class="hero">
+        <div class="hero-content">
+            <h1>Smart Travel Fare Calculator</h1>
+            <p>Get accurate fare estimates for your journey with our AI-powered travel assistant</p>
+            <div class="hero-cta">
+              <a href="{%url 'chatbot'%}">
+                 <button class="btn btn-primary" >Try It Now</button>
+              </a>
+              <a href="{%url 'about'%}">
+                <button class="btn btn-outline">Learn More</button>
+              </a>
+                
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="{%static 'image/taxi.jpeg'%}" alt="Scenic Beach View with Car">
+        </div>
+       
+    </section>
+
+    <section id="features" class="features">
+        <h2 class="features-title">Our Services</h2>
+        <p class="features-subtitle">Choose from our wide range of transportation options to meet your travel needs</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-badge">Popular</span>
+                <img src="https://rapido-app-assets-staging.storage.googleapis.com/c9bf4e04eeb9f9e5a52c55a143d095c5_1738146120477.webp" alt="Bike">
+                <h3>Bike</h3>
+                <p>Quick and affordable bike rides for short distances</p>
+            </div>
+            <div class="feature-card">
+                <img src="https://rapido-app-assets-staging.storage.googleapis.com/baa331808b70d22c33bdcb6e96c3a104_1738146204279.webp" alt="Auto">
+                <h3>Auto</h3>
+                <p>Convenient auto rickshaw rides at competitive rates</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-badge">Premium</span>
+                <img src="https://rapido-app-assets-staging.storage.googleapis.com/ed7c8d4653fee97d2cd5c76f00871d72_1738146343883.webp" alt="Cab Premium">
+                <h3>Cab Premium</h3>
+                <p>Luxury cab service for a premium experience</p>
+            </div>
+        </div>
+    </section>
+
+    
+<a href="{% url 'chatbot' %}">
+    <div class="chatbot-container" id="chatbot-button">
+    <div class="chatbot-icon">💬</div>
+</div>
+</a>
+
+
+
+     {%include 'rating.html'%}
+ <script>
+      document.addEventListener('DOMContentLoaded', function() {
+           
+            const chatbotPopup = document.getElementById('chatbot-popup');
+            const closeChat = document.getElementById('close-chat');
+            const bikeAnimation = document.getElementById('bike-animation');
+            
+            // chatbotButton.addEventListener('click', function() {
+            //     chatbotPopup.style.display = 'block';
+                
+            //     void chatbotPopup.offsetWidth;
+                
+            //     chatbotPopup.classList.add('fade-in');
+            //     chatbotPopup.classList.remove('fade-out');
+                
+            //     chatbotButton.style.animation = 'none';
+            //     void chatbotButton.offsetWidth;
+            //     chatbotButton.style.animation = 'pulseIcon 0.5s ease';
+            // });
+            
+            closeChat.addEventListener('click', function() {
+                chatbotPopup.classList.add('fade-out');
+                chatbotPopup.classList.remove('fade-in');
+                
+                setTimeout(() => {
+                    chatbotPopup.style.display = 'none';
+                }, 300);
+            });
+
+            window.addEventListener('message', function(event) {
+                if (event.data && event.data.action === 'rideBooked') {
+                    const vehicleType = event.data.vehicle || 'bike';
+                    const vehicleElement = document.getElementById('vehicle-element');
+                    
+                    vehicleElement.className = 'vehicle ' + vehicleType;
+                    
+                    chatbotPopup.classList.add('fade-out');
+                    chatbotPopup.classList.remove('fade-in');
+                    
+                    setTimeout(() => {
+                        chatbotPopup.style.display = 'none';
+                        
+                        bikeAnimation.classList.add('active');
+                        
+                        setTimeout(() => {
+                            if (!chatbotPopup.style.display || chatbotPopup.style.display === 'none') {
+                                showCustomNotification(vehicleType);
+                            }
+                        }, 8000); 
+                    }, 300);
+                }
+            });
+            
+            function showCustomNotification(vehicleType) {
+                const notification = document.createElement('div');
+                notification.className = 'custom-notification';
+                notification.innerHTML = `
+                    <div class="notification-icon">🎉</div>
+                    <div class="notification-content">
+                        <h3>Your ${vehicleType} has arrived!</h3>
+                        <p>Driver is waiting for you</p>
+                    </div>
+                    <button class="notification-close">×</button>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                void notification.offsetWidth;
+                notification.classList.add('show');
+                
+                const closeBtn = notification.querySelector('.notification-close');
+                closeBtn.addEventListener('click', function() {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 300);
+                });
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 300);
+                }, 5000);
+            }
+        });
+
+        
+</script> 
+ <script>
+        // Vehicle selection functionality
+        const vehicleCards = document.querySelectorAll('.vehicle-card');
+        const vehicleImages = document.querySelectorAll('.vehicle-image');
+        
+        vehicleCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const vehicle = this.getAttribute('data-vehicle');
+                
+                // Update active state for cards
+                vehicleCards.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Update active state for images
+                vehicleImages.forEach(img => img.classList.remove('active'));
+                document.getElementById(`${vehicle}-image`).classList.add('active');
+            });
+        });
+
+        // // Button interactions
+        // document.querySelector('.btn-primary').addEventListener('click', function() {
+        //     alert('Redirecting to fare calculator...');
+        // });
+
+       
+    </script>
+    {%include "footer.html"%}
+{%endblock%}

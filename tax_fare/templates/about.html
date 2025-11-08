@@ -1,0 +1,99 @@
+{%extends "layout.html"%}
+{%load static%}
+{%block content%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - RideEase</title>
+    <link rel="stylesheet" href="{%static 'css/aboutus.css'%}">
+
+</head>
+<body>
+    <div class="about-container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 class="hero-title">About RideEase</h1>
+            <p class="hero-subtitle">
+                Revolutionizing urban transportation with AI-powered fare estimation and seamless ride booking experiences.
+            </p>
+        </section>
+
+        <!-- Mission Section -->
+        <section class="mission-section">
+            <div class="mission-content">
+                <h2>Our Mission</h2>
+                <p class="mission-text">
+                    At RideEase, we believe that getting around the city should be simple, affordable, and reliable. 
+                    Our mission is to transform urban mobility by providing intelligent fare estimation, multiple transportation 
+                    options, and instant booking capabilities - all in one platform.
+                </p>
+                <p class="mission-text">
+                    Powered by advanced algorithms and real-time data, we help you make informed decisions about your travel 
+                    while ensuring transparency in pricing and service quality.
+                </p>
+                <div class="mission-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">Happy Riders</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">50K+</div>
+                        <div class="stat-label">Rides Completed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">4.9★</div>
+                        <div class="stat-label">Average Rating</div>
+                    </div>
+                </div>
+            </div>
+            <div class="mission-image">
+                           <img src="{%static 'image/taxi_2.jpeg'%}" alt="Scenic Beach View with Car" class="img">
+
+            </div>
+        </section>
+
+        <!-- Values Section -->
+        <section class="values-section">
+            <h2 class="section-title">Our Values</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">🚀</div>
+                    <h3 class="value-title">Innovation</h3>
+                    <p class="value-description">
+                        We constantly push boundaries with AI-powered solutions to make urban transportation smarter and more efficient.
+                    </p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🤝</div>
+                    <h3 class="value-title">Trust</h3>
+                    <p class="value-description">
+                        Transparent pricing, reliable service, and honest communication form the foundation of every ride.
+                    </p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">❤️</div>
+                    <h3 class="value-title">Customer First</h3>
+                    <p class="value-description">
+                        Your satisfaction and safety are our top priorities. We listen, adapt, and improve based on your feedback.
+                    </p>
+                </div>
+               
+            </div>
+        </section>
+
+       
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 class="cta-title">Ready to Ride with Ease?</h2>
+            <p class="cta-description">
+                Join thousands of satisfied riders who trust RideEase for their daily commute and travel needs. 
+                Experience the future of urban transportation today.
+            </p>
+            <a href="{% url 'home' %}" class="cta-button">Start Your Journey</a>
+        </section>
+    </div>
+</body>
+</html>
+{%endblock%}
